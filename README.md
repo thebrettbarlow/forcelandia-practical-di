@@ -1,4 +1,14 @@
-# Forcelandia 2023: Practical Uses of Dependency Injection
+# Practical Uses of Dependency Injection
+
+Example project that was presented at [Forcelandia](https://forcelandia.com/) 2023.
+
+---
+
+This project has been organized to showcase everyday uses of Dependency Injection. Check out the examples to learn more:
+
+- [Apex Trigger](force-app/di-examples/apex-trigger)
+- [Integration with a REST API](force-app/di-examples/rest-integration)
+- [Lightning Component](force-app/di-examples/lightning-component)
 
 ## Development
 
@@ -18,7 +28,7 @@ sf org login web \
 org_alias="forcelandia-di-scratch"
 
 sf org create scratch \
-  --alias="${alias}" \
+  --alias="${org_alias}" \
   --definition-file=config/project-scratch-def.json \
   --duration-days=30 \
   --set-default

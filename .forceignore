@@ -3,6 +3,7 @@
 #
 
 package.xml
+README.md
 
 # LWC configuration files
 **/jsconfig.json
