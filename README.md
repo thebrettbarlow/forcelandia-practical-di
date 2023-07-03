@@ -1,18 +1,31 @@
-# Salesforce DX Project: Next Steps
+# Forcelandia 2023: Practical Uses of Dependency Injection
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+## Development
 
-## How Do You Plan to Deploy Your Changes?
+### Connect to the Dev Hub
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+```shell
+org_alias="forcelandia-di"
 
-## Configure Your Salesforce DX Project
+sf org login web \
+  --alias="${org_alias}" \
+  --set-default-dev-hub
+```
 
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
+### Make a scratch org
 
-## Read All About It
+```shell
+org_alias="forcelandia-di-scratch"
 
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+sf org create scratch \
+  --alias="${alias}" \
+  --definition-file=config/project-scratch-def.json \
+  --duration-days=30 \
+  --set-default
+
+sf project deploy start \
+  --source-dir=force-app \
+  --wait=10 \
+  --ignore-conflicts \
+  --verbose
+```
