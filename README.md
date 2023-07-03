@@ -4,7 +4,9 @@ Example project that was presented at [Forcelandia](https://forcelandia.com/) 20
 
 ---
 
-This project has been organized to showcase everyday uses of Dependency Injection. Check out the examples to learn more:
+This project has been organized to showcase everyday uses of Dependency Injection.
+
+Check out the examples to learn more:
 
 - [Apex Trigger](force-app/di-examples/apex-trigger)
 - [Integration with a REST API](force-app/di-examples/rest-integration)
