@@ -1,0 +1,25 @@
+{
+  "apexInsertFinalNewline": false,
+  "singleQuote": true,
+  "trailingComma": "none",
+  "overrides": [
+    {
+      "files": "*.{cls}",
+      "options": {
+        "printWidth": 100
+      }
+    },
+    {
+      "files": "**/lwc/**/*.html",
+      "options": {
+        "parser": "lwc"
+      }
+    },
+    {
+      "files": "*.{cmp,page,component}",
+      "options": {
+        "parser": "html"
+      }
+    }
+  ]
+}
