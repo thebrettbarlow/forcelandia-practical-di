@@ -1,7 +1,7 @@
 /**
  * Tests for {@link DatetimeUtil}.
  */
-@IsTest
+@IsTest(IsParallel=true)
 private class DatetimeUtilTest {
   @IsTest
   private static void min_isLessThanToday() {
