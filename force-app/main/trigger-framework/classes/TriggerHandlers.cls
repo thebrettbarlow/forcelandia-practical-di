@@ -26,7 +26,7 @@ public inherited sharing class TriggerHandlers {
 
   private static final PremiumOpportunityService PREMIUM_OPPORTUNITY_SERVICE {
     get {
-      return new PremiumOpportunityService();
+      return new PremiumOpportunityService(OPPORTUNITY_CHECKER);
     }
   }
 

@@ -31,6 +31,7 @@
         <members>OpportunityCheckerTest</members>
         <members>OpportunityConstantsTest</members>
         <members>PremiumOpportunityTest</members>
+        <members>PremiumOpportunityServiceTest</members>
         <name>ApexClass</name>
     </types>
     <types>

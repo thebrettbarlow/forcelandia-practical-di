@@ -7,6 +7,12 @@ public inherited sharing virtual class PremiumOpportunityService {
   @TestVisible
   private static Writer writer = new Writer();
 
+  private final OpportunityChecker opportunityChecker;
+
+  public PremiumOpportunityService(OpportunityChecker opportunityChecker) {
+    this.opportunityChecker = opportunityChecker;
+  }
+
   /**
    * Creates a premium {@link Opportunity} record for each {@link Account}.
    */
@@ -20,9 +26,21 @@ public inherited sharing virtual class PremiumOpportunityService {
       }
     }
 
-    Set<Id> accountIdsWithOpenPremiumOpportunities = selector.getAccountIdsWithOpenPremiumOpportunities(
+    if (accountIds.isEmpty()) {
+      return;
+    }
+
+    List<Opportunity> openOpportunities = selector.getOpenOpportunities(
       accountIds
     );
+    Set<Id> accountIdsWithOpenPremiumOpportunities = new Set<Id>();
+    for (Opportunity opportunity : openOpportunities) {
+      if (
+        opportunityChecker.hasPremiumProduct(opportunity.OpportunityLineItems)
+      ) {
+        accountIdsWithOpenPremiumOpportunities.add(opportunity.AccountId);
+      }
+    }
 
     List<Opportunity> opportunities = new List<Opportunity>();
     List<List<OpportunityLineItem>> opportunityLineItems = new List<List<OpportunityLineItem>>();
@@ -65,25 +83,42 @@ public inherited sharing virtual class PremiumOpportunityService {
     }
   }
 
+  /**
+   * Retrieves records for the {@link PremiumOpportunityService}.
+   */
   @TestVisible
-  private class Selector {
+  private virtual class Selector {
+    /**
+     * Returns open {@link Opportunity} records for the list of {@link Account} Ids.
+     */
     @TestVisible
-    private Set<Id> getAccountIdsWithOpenPremiumOpportunities(
-      Set<Id> accountId
-    ) {
-      throw new UnexpectedException('not implemented');
+    private virtual List<Opportunity> getOpenOpportunities(Set<Id> accountIds) {
+      return [
+        SELECT AccountId, (SELECT Id, Product2.Name FROM OpportunityLineItems)
+        FROM Opportunity
+        WHERE AccountId IN :accountIds AND IsClosed = FALSE
+      ];
     }
   }
 
+  /**
+   * Performs DML operations on records for the {@link PremiumOpportunityService}.
+   */
   @TestVisible
-  private class Writer {
+  private virtual class Writer {
+    /**
+     * Inserts {@link Opportunity} records.
+     */
     @TestVisible
-    private void insertOpportunities(List<Opportunity> opportunities) {
+    private virtual void insertOpportunities(List<Opportunity> opportunities) {
       insert opportunities;
     }
 
+    /**
+     * Inserts {@link OpportunityLineItem} records.
+     */
     @TestVisible
-    private void insertOpportunityLineItems(
+    private virtual void insertOpportunityLineItems(
       List<OpportunityLineItem> opportunityLineItems
     ) {
       insert opportunityLineItems;
