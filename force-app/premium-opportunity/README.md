@@ -1,3 +1,3 @@
 # Premium Opportunity
 
-Implementation related to premium Opportunity records.
+Implementation of logic related to Premium Opportunity records.

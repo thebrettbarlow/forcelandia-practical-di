@@ -1,3 +1,3 @@
 # Premium Opportunity Service
 
-Backend service that generates premium Opportunity records.
+Backend service that generates Premium Opportunity records.
