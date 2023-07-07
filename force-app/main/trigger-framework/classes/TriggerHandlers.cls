@@ -38,7 +38,7 @@ public inherited sharing class TriggerHandlers {
 
   private static final AccountChecker ACCOUNT_CHECKER {
     get {
-      return new AccountChecker();
+      return new AccountChecker(AccountConstants.PREMIUM_CUSTOMER_TYPES);
     }
   }
 

@@ -25,6 +25,9 @@
         <members>OpportunityTriggerTest</members>
         <members>TriggerHandlersTest</members>
         <members>TriggerHandlerProviderTest</members>
+        <members>AccountCheckerTest</members>
+        <members>AccountConstants</members>
+        <members>AccountConstantsTest</members>
         <name>ApexClass</name>
     </types>
     <types>

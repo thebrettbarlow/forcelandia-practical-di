@@ -41,3 +41,14 @@ sf project deploy start \
   --ignore-conflicts \
   --verbose
 ```
+
+### Run all tests
+
+```shell
+org_alias="forcelandia-di-scratch"
+
+sf apex test run \
+  --target-org="${org_alias}" \
+  --wait=10 \
+  --code-coverage
+```
