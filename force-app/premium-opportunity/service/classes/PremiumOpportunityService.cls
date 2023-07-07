@@ -84,7 +84,7 @@ public inherited sharing virtual class PremiumOpportunityService {
   }
 
   /**
-   * Retrieves records for the {@link PremiumOpportunityService}.
+   * Retrieves records for {@link PremiumOpportunityService}.
    */
   @TestVisible
   private virtual class Selector {

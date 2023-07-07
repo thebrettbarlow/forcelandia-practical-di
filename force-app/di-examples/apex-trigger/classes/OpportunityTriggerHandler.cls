@@ -95,7 +95,7 @@ public inherited sharing class OpportunityTriggerHandler implements TriggerHandl
   }
 
   /**
-   * Retrieves records for the {@link OpportunityTriggerHandler}.
+   * Retrieves records for {@link OpportunityTriggerHandler}.
    */
   @TestVisible
   private virtual class Selector {
