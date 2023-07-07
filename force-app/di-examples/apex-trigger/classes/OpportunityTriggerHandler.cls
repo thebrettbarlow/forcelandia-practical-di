@@ -14,12 +14,12 @@ public inherited sharing class OpportunityTriggerHandler implements TriggerHandl
     AccountChecker accountChecker,
     OpportunityChecker opportunityChecker,
     PremiumOpportunityFactory premiumOpportunityFactory,
-    PremiumOpportunityService nextOpportunityService
+    PremiumOpportunityService premiumOpportunityService
   ) {
     this.accountChecker = accountChecker;
     this.opportunityChecker = opportunityChecker;
     this.premiumOpportunityFactory = premiumOpportunityFactory;
-    this.premiumOpportunityService = nextOpportunityService;
+    this.premiumOpportunityService = premiumOpportunityService;
   }
 
   public void onBeforeInsert(List<SObject> sobjects) {
@@ -94,8 +94,16 @@ public inherited sharing class OpportunityTriggerHandler implements TriggerHandl
     onAfterInsert(sobjects);
   }
 
-  private class Selector {
-    private List<Opportunity> getOpportunities(List<SObject> sobjects) {
+  /**
+   * Retrieves records for the {@link OpportunityTriggerHandler}.
+   */
+  @TestVisible
+  private virtual class Selector {
+    /**
+     * Returns {@link Opportunity} records based on the list of {@link SObject}.
+     */
+    @TestVisible
+    private virtual List<Opportunity> getOpportunities(List<SObject> sobjects) {
       return [
         SELECT Id
         FROM Opportunity

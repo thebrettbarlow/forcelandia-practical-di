@@ -1,11 +1,11 @@
 /**
  * Performs operations related to Premium {@link Opportunity} records.
  */
-public inherited sharing class PremiumOpportunityService {
+public inherited sharing virtual class PremiumOpportunityService {
   /**
    * Creates a premium {@link Opportunity} record for each {@link Account}.
    */
-  public void createPremiumOpportunities(
+  public virtual void createPremiumOpportunities(
     List<PremiumOpportunity> premiumOpportunities
   ) {
     throw new UnexpectedException('not implemented');

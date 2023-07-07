@@ -18,6 +18,9 @@
         <members>AccountChecker</members>
         <members>PremiumOpportunityFactory</members>
         <members>PremiumOpportunity</members>
+        <members>OpportunityTriggerHandlerTest</members>
+        <members>DatetimeUtil</members>
+        <members>DatetimeUtilTest</members>
         <name>ApexClass</name>
     </types>
     <types>

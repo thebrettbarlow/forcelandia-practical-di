@@ -1,11 +1,11 @@
 /**
  * Builds {@link PremiumOpportunity} objects.
  */
-public inherited sharing class PremiumOpportunityFactory {
+public inherited sharing virtual class PremiumOpportunityFactory {
   /**
    * Builds and returns a {@link PremiumOpportunity} for the {@link Account}.
    */
-  public PremiumOpportunity createFor(Id accountId) {
+  public virtual PremiumOpportunity createFor(Id accountId) {
     throw new UnexpectedException('not implemented');
   }
 }
