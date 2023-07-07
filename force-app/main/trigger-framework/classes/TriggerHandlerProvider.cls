@@ -1,7 +1,7 @@
 /**
  * Provides implementations of {@link TriggerHandler}.
  */
-public inherited sharing class TriggerHandlerProvider {
+public inherited sharing virtual class TriggerHandlerProvider {
   private final Map<SObjectType, TriggerHandler> triggerHandlers;
 
   public TriggerHandlerProvider(
@@ -13,7 +13,7 @@ public inherited sharing class TriggerHandlerProvider {
   /**
    * Returns the {@link TriggerHandler} mapped to the {@link SObjectType}.
    */
-  public TriggerHandler get(SObjectType sobjectType) {
+  public virtual TriggerHandler get(SObjectType sobjectType) {
     if (!triggerHandlers.containsKey(sobjectType)) {
       throw new IllegalArgumentException(
         String.format(

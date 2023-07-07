@@ -1,0 +1,157 @@
+/**
+ * Tests for {@link TriggerRunner}.
+ */
+@IsTest(IsParallel=true)
+private class TriggerRunnerTest {
+  @IsTest
+  private static void run_allTriggerOperations_eachCalledOnce() {
+    List<Lead> leads = new List<Lead>{
+      new Lead(Id = SObjectUtil.generateFakeId(Lead.SObjectType))
+    };
+    Map<Id, Lead> oldLeadsByIds = new Map<Id, Lead>(leads);
+    FakeTriggerHandler fakeTriggerHandler = new FakeTriggerHandler();
+    FakeTriggerHandlerProvider fakeTriggerHandlerProvider = new FakeTriggerHandlerProvider(
+      fakeTriggerHandler
+    );
+    TriggerRunner.triggerHandlerProvider = fakeTriggerHandlerProvider;
+
+    TriggerRunner.run(leads, oldLeadsByIds, TriggerOperation.BEFORE_INSERT);
+    TriggerRunner.run(leads, oldLeadsByIds, TriggerOperation.BEFORE_UPDATE);
+    TriggerRunner.run(leads, oldLeadsByIds, TriggerOperation.BEFORE_DELETE);
+    TriggerRunner.run(leads, oldLeadsByIds, TriggerOperation.AFTER_INSERT);
+    TriggerRunner.run(leads, oldLeadsByIds, TriggerOperation.AFTER_UPDATE);
+    TriggerRunner.run(leads, oldLeadsByIds, TriggerOperation.AFTER_DELETE);
+    TriggerRunner.run(leads, oldLeadsByIds, TriggerOperation.AFTER_UNDELETE);
+
+    Assert.areEqual(1, fakeTriggerHandler.beforeInsertCallTimes);
+    Assert.areEqual(1, fakeTriggerHandler.beforeUpdateCallTimes);
+    Assert.areEqual(1, fakeTriggerHandler.beforeDeleteCallTimes);
+    Assert.areEqual(1, fakeTriggerHandler.afterInsertCallTimes);
+    Assert.areEqual(1, fakeTriggerHandler.afterUpdateCallTimes);
+    Assert.areEqual(1, fakeTriggerHandler.afterDeleteCallTimes);
+    Assert.areEqual(1, fakeTriggerHandler.afterUndeleteCallTimes);
+  }
+
+  @IsTest
+  private static void run_emptyTriggerOldMap_doesNotThrow() {
+    List<Lead> leads = new List<Lead>{ new Lead() };
+    Map<Id, Lead> oldLeadsByIds = new Map<Id, Lead>();
+    FakeTriggerHandler fakeTriggerHandler = new FakeTriggerHandler();
+    FakeTriggerHandlerProvider fakeTriggerHandlerProvider = new FakeTriggerHandlerProvider(
+      fakeTriggerHandler
+    );
+    TriggerRunner.triggerHandlerProvider = fakeTriggerHandlerProvider;
+    AssertThrows.Throwing throwing = AssertThrows.doesNotThrow();
+
+    try {
+      TriggerRunner.run(leads, oldLeadsByIds, TriggerOperation.BEFORE_INSERT);
+    } catch (Exception e) {
+      throwing.threw(e);
+    }
+
+    throwing.assertHasNotThrown();
+  }
+
+  @IsTest
+  private static void run_emptyTriggerNew_doesNotThrow() {
+    List<Lead> leads = new List<Lead>();
+    Lead lead = new Lead(Id = SObjectUtil.generateFakeId(Lead.SObjectType));
+    Map<Id, Lead> oldLeadsByIds = new Map<Id, Lead>{ lead.Id => lead };
+    FakeTriggerHandler fakeTriggerHandler = new FakeTriggerHandler();
+    FakeTriggerHandlerProvider fakeTriggerHandlerProvider = new FakeTriggerHandlerProvider(
+      fakeTriggerHandler
+    );
+    TriggerRunner.triggerHandlerProvider = fakeTriggerHandlerProvider;
+    AssertThrows.Throwing throwing = AssertThrows.doesNotThrow();
+
+    try {
+      TriggerRunner.run(leads, oldLeadsByIds, TriggerOperation.BEFORE_INSERT);
+    } catch (Exception e) {
+      throwing.threw(e);
+    }
+
+    throwing.assertHasNotThrown();
+  }
+
+  @IsTest
+  private static void run_emptyTriggerNewAndTriggerOldMap_throws() {
+    List<Lead> leads = new List<Lead>();
+    Map<Id, Lead> oldLeadsByIds = new Map<Id, Lead>();
+    FakeTriggerHandler fakeTriggerHandler = new FakeTriggerHandler();
+    FakeTriggerHandlerProvider fakeTriggerHandlerProvider = new FakeTriggerHandlerProvider(
+      fakeTriggerHandler
+    );
+    TriggerRunner.triggerHandlerProvider = fakeTriggerHandlerProvider;
+    AssertThrows.Throwing throwing = AssertThrows.with(
+      IllegalArgumentException.class,
+      'Expected to get the SObjectType from the records in the trigger. Found null from Trigger.new () and Trigger.oldMap {}'
+    );
+
+    try {
+      TriggerRunner.run(leads, oldLeadsByIds, TriggerOperation.BEFORE_INSERT);
+      throwing.shouldHaveThrown();
+    } catch (Exception e) {
+      throwing.threw(e);
+    }
+
+    throwing.assertHasThrown();
+  }
+
+  private class FakeTriggerHandlerProvider extends TriggerHandlerProvider {
+    private final TriggerHandler triggerHandler;
+
+    private FakeTriggerHandlerProvider(TriggerHandler triggerHandler) {
+      super(null);
+
+      this.triggerHandler = triggerHandler;
+    }
+
+    public override TriggerHandler get(SObjectType sobjectType) {
+      return triggerHandler;
+    }
+  }
+
+  private class FakeTriggerHandler implements TriggerHandler {
+    private Integer beforeInsertCallTimes = 0;
+    private Integer beforeUpdateCallTimes = 0;
+    private Integer beforeDeleteCallTimes = 0;
+    private Integer afterInsertCallTimes = 0;
+    private Integer afterUpdateCallTimes = 0;
+    private Integer afterDeleteCallTimes = 0;
+    private Integer afterUndeleteCallTimes = 0;
+
+    public void onBeforeInsert(List<SObject> sobjects) {
+      beforeInsertCallTimes++;
+    }
+
+    public void onBeforeUpdate(
+      List<SObject> sobjects,
+      Map<Id, SObject> oldSObjectsByIds
+    ) {
+      beforeUpdateCallTimes++;
+    }
+
+    public void onBeforeDelete(List<SObject> sobjects) {
+      beforeDeleteCallTimes++;
+    }
+
+    public void onAfterInsert(List<SObject> sobjects) {
+      afterInsertCallTimes++;
+    }
+
+    public void onAfterUpdate(
+      List<SObject> sobjects,
+      Map<Id, SObject> oldSObjectsByIds
+    ) {
+      afterUpdateCallTimes++;
+    }
+
+    public void onAfterDelete(List<SObject> oldSObjects) {
+      afterDeleteCallTimes++;
+    }
+
+    public void onAfterUndelete(List<SObject> sobjects) {
+      afterUndeleteCallTimes++;
+    }
+  }
+}

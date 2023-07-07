@@ -21,6 +21,7 @@
         <members>OpportunityTriggerHandlerTest</members>
         <members>DatetimeUtil</members>
         <members>DatetimeUtilTest</members>
+        <members>TriggerRunnerTest</members>
         <name>ApexClass</name>
     </types>
     <types>

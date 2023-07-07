@@ -19,7 +19,7 @@ public inherited sharing class TriggerRunner {
     Preconditions.checkArgument(
       sobjectType != null,
       String.format(
-        'Expected to get the SObjectType from the records in the trigger. Found {0} from Trigger.new: {1} and Trigger.oldMap: {2}',
+        'Expected to get the SObjectType from the records in the trigger. Found {0} from Trigger.new {1} and Trigger.oldMap {2}',
         new List<Object>{ sobjectType, sobjects, oldSObjectsByIds }
       )
     );
@@ -33,7 +33,7 @@ public inherited sharing class TriggerRunner {
         triggerHandler.onBeforeUpdate(sobjects, oldSObjectsByIds);
       }
       when BEFORE_DELETE {
-        triggerHandler.onAfterDelete(sobjects);
+        triggerHandler.onBeforeDelete(sobjects);
       }
       when AFTER_INSERT {
         triggerHandler.onAfterInsert(sobjects);
