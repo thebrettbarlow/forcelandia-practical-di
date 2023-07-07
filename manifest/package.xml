@@ -28,6 +28,8 @@
         <members>AccountCheckerTest</members>
         <members>AccountConstants</members>
         <members>AccountConstantsTest</members>
+        <members>OpportunityCheckerTest</members>
+        <members>OpportunityConstantsTest</members>
         <name>ApexClass</name>
     </types>
     <types>

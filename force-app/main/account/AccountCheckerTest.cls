@@ -26,7 +26,7 @@ private class AccountCheckerTest {
   }
 
   @IsTest
-  private static void isPremiumCustomer_accountIsNull_throws() {
+  private static void isPremiumCustomer_providedNullValue_throws() {
     AssertThrows.Throwing throwing = AssertThrows.with(
       IllegalArgumentException.class,
       'Expected a non-null Account. Found null'

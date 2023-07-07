@@ -57,7 +57,7 @@ private class OpportunityTriggerHandlerTest {
     List<Boolean> isPremiumCustomerResults = new List<Boolean>{ false };
     List<Boolean> hasPremiumProductResults = new List<Boolean>{ false };
     PremiumOpportunity premiumOpportunity = PremiumOpportunity.newBuilder()
-      .setName('test premium opportunity')
+      .setName('test-premium-opportunity')
       .build();
     List<Opportunity> opportunities = new List<Opportunity>{
       new Opportunity()
@@ -89,7 +89,7 @@ private class OpportunityTriggerHandlerTest {
       fakePremiumOpportunityService.processedPremiumOpportunities.size()
     );
     Assert.areEqual(
-      'test premium opportunity',
+      'test-premium-opportunity',
       fakePremiumOpportunityService.processedPremiumOpportunities[0].name
     );
   }
@@ -100,7 +100,7 @@ private class OpportunityTriggerHandlerTest {
     List<Boolean> isPremiumCustomerResults = new List<Boolean>{ false };
     List<Boolean> hasPremiumProductResults = new List<Boolean>{ false };
     PremiumOpportunity premiumOpportunity = PremiumOpportunity.newBuilder()
-      .setName('test premium opportunity')
+      .setName('test-premium-opportunity')
       .build();
     Opportunity opportunity = new Opportunity(
       Id = SObjectUtil.generateFakeId(Opportunity.SObjectType)
@@ -136,7 +136,7 @@ private class OpportunityTriggerHandlerTest {
       fakePremiumOpportunityService.processedPremiumOpportunities.size()
     );
     Assert.areEqual(
-      'test premium opportunity',
+      'test-premium-opportunity',
       fakePremiumOpportunityService.processedPremiumOpportunities[0].name
     );
   }
@@ -216,6 +216,8 @@ private class OpportunityTriggerHandlerTest {
     private final List<Boolean> isPremiumCustomerResults;
 
     private FakeAccountChecker(List<Boolean> isPremiumCustomerResults) {
+      super(null);
+
       this.isPremiumCustomerResults = isPremiumCustomerResults;
     }
 
@@ -232,11 +234,15 @@ private class OpportunityTriggerHandlerTest {
       List<Boolean> hasPremiumProductResults,
       List<Boolean> isClosedWonResults
     ) {
+      super(null);
+
       this.hasPremiumProductResults = hasPremiumProductResults;
       this.isClosedWonResults = isClosedWonResults;
     }
 
-    public override Boolean hasPremiumProduct(Opportunity opportunity) {
+    public override Boolean hasPremiumProduct(
+      List<OpportunityLineItem> opportunityLineItems
+    ) {
       return hasPremiumProductResults.remove(0);
     }
 

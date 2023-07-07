@@ -44,7 +44,7 @@ public inherited sharing class TriggerHandlers {
 
   private static final OpportunityChecker OPPORTUNITY_CHECKER {
     get {
-      return new OpportunityChecker();
+      return new OpportunityChecker(OpportunityConstants.PREMIUM_PRODUCTS);
     }
   }
 }

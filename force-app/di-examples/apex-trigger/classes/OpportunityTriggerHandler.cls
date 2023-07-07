@@ -42,7 +42,7 @@ public inherited sharing class OpportunityTriggerHandler implements TriggerHandl
       if (
         opportunityChecker.isClosedWon(opportunity) &&
         !accountChecker.isPremiumCustomer(opportunity.Account) &&
-        !opportunityChecker.hasPremiumProduct(opportunity)
+        !opportunityChecker.hasPremiumProduct(opportunity.OpportunityLineItems)
       ) {
         premiumOpportunities.add(
           premiumOpportunityFactory.createFor(opportunity.AccountId)
@@ -71,7 +71,7 @@ public inherited sharing class OpportunityTriggerHandler implements TriggerHandl
         ) &&
         opportunityChecker.isClosedWon(opportunity) &&
         !accountChecker.isPremiumCustomer(opportunity.Account) &&
-        !opportunityChecker.hasPremiumProduct(opportunity)
+        !opportunityChecker.hasPremiumProduct(opportunity.OpportunityLineItems)
       ) {
         premiumOpportunities.add(
           premiumOpportunityFactory.createFor(opportunity.AccountId)
@@ -105,7 +105,7 @@ public inherited sharing class OpportunityTriggerHandler implements TriggerHandl
     @TestVisible
     private virtual List<Opportunity> getOpportunities(List<SObject> sobjects) {
       return [
-        SELECT Id
+        SELECT Id, (SELECT Product2.Name FROM OpportunityLineItems)
         FROM Opportunity
         WHERE Id IN :sobjects
       ];
