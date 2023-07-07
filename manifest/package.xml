@@ -24,6 +24,7 @@
         <members>TriggerRunnerTest</members>
         <members>OpportunityTriggerTest</members>
         <members>TriggerHandlersTest</members>
+        <members>TriggerHandlerProviderTest</members>
         <name>ApexClass</name>
     </types>
     <types>
