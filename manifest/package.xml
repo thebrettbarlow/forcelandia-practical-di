@@ -7,7 +7,6 @@
         <members>TriggerRunner</members>
         <members>TriggerHandlers</members>
         <members>OpportunityChecker</members>
-        <members>OpportunitySelector</members>
         <members>PremiumOpportunityService</members>
         <members>SObjectUtil</members>
         <members>Preconditions</members>
@@ -16,8 +15,9 @@
         <members>PreconditionsTest</members>
         <members>SObjectUtilTest</members>
         <members>OpportunityConstants</members>
-        <members>OpportunityWriter</members>
-        <members>OpportunityFactory</members>
+        <members>AccountChecker</members>
+        <members>PremiumOpportunityFactory</members>
+        <members>PremiumOpportunity</members>
         <name>ApexClass</name>
     </types>
     <types>

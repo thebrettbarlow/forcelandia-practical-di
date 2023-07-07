@@ -16,44 +16,35 @@ public inherited sharing class TriggerHandlers {
   private static final OpportunityTriggerHandler OPPORTUNITY_TRIGGER_HANDLER {
     get {
       return new OpportunityTriggerHandler(
-        PREMIUM_OPPORTUNITY_SERVICE,
-        OPPORTUNITY_SELECTOR
+        ACCOUNT_CHECKER,
+        OPPORTUNITY_CHECKER,
+        PREMIUM_OPPORTUNITY_FACTORY,
+        PREMIUM_OPPORTUNITY_SERVICE
       );
     }
   }
 
   private static final PremiumOpportunityService PREMIUM_OPPORTUNITY_SERVICE {
     get {
-      return new PremiumOpportunityService(
-        OPPORTUNITY_CHECKER,
-        OPPORTUNITY_FACTORY,
-        OPPORTUNITY_SELECTOR,
-        OPPORTUNITY_WRITER
-      );
+      return new PremiumOpportunityService();
+    }
+  }
+
+  private static final PremiumOpportunityFactory PREMIUM_OPPORTUNITY_FACTORY {
+    get {
+      return new PremiumOpportunityFactory();
+    }
+  }
+
+  private static final AccountChecker ACCOUNT_CHECKER {
+    get {
+      return new AccountChecker();
     }
   }
 
   private static final OpportunityChecker OPPORTUNITY_CHECKER {
     get {
-      return new OpportunityChecker(OpportunityConstants.STARTER_PRODUCTS);
-    }
-  }
-
-  private static final OpportunityFactory OPPORTUNITY_FACTORY {
-    get {
-      return new OpportunityFactory();
-    }
-  }
-
-  private static final OpportunitySelector OPPORTUNITY_SELECTOR {
-    get {
-      return new OpportunitySelector(OpportunityConstants.PREMIUM_PRODUCTS);
-    }
-  }
-
-  private static final OpportunityWriter OPPORTUNITY_WRITER {
-    get {
-      return new OpportunityWriter();
+      return new OpportunityChecker();
     }
   }
 }

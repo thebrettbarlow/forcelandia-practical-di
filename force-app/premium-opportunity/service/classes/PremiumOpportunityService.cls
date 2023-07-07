@@ -1,90 +1,38 @@
 /**
- * Creates {@code premium-opportunity} records.
+ * Performs operations related to Premium {@link Opportunity} records.
  */
 public inherited sharing class PremiumOpportunityService {
-  private final OpportunityChecker opportunityChecker;
-  private final OpportunityFactory opportunityFactory;
-  private final OpportunitySelector opportunitySelector;
-  private final OpportunityWriter opportunityWriter;
-
-  public PremiumOpportunityService(
-    OpportunityChecker opportunityChecker,
-    OpportunityFactory opportunityFactory,
-    OpportunitySelector opportunitySelector,
-    OpportunityWriter opportunityWriter
+  /**
+   * Creates a premium {@link Opportunity} record for each {@link Account}.
+   */
+  public void createPremiumOpportunities(
+    List<PremiumOpportunity> premiumOpportunities
   ) {
-    this.opportunityChecker = opportunityChecker;
-    this.opportunityFactory = opportunityFactory;
-    this.opportunitySelector = opportunitySelector;
-    this.opportunityWriter = opportunityWriter;
+    throw new UnexpectedException('not implemented');
   }
 
-  public void run(List<Opportunity> opportunities) {
-    List<Opportunity> opportunitiesToProcess = new List<Opportunity>();
-    for (Opportunity opportunity : opportunities) {
-      if (opportunityChecker.needsNextOpportunity(opportunity)) {
-        opportunitiesToProcess.add(opportunity);
-      }
+  @TestVisible
+  private class Selector {
+    @TestVisible
+    private Set<Id> getAccountIdsWithOpenPremiumOpportunities(
+      Set<Id> accountId
+    ) {
+      throw new UnexpectedException('not implemented');
     }
-
-    processOpportunities(opportunitiesToProcess);
   }
 
-  public void run(
-    List<Opportunity> opportunities,
-    Map<Id, Opportunity> oldOpportunitiesByIds
-  ) {
-    List<Opportunity> opportunitiesToProcess = new List<Opportunity>();
-    for (Opportunity opportunity : opportunities) {
-      if (
-        opportunityChecker.needsNextOpportunity(
-          opportunity,
-          oldOpportunitiesByIds.get(opportunity.Id)
-        )
-      ) {
-        opportunitiesToProcess.add(opportunity);
-      }
+  @TestVisible
+  private class Writer {
+    @TestVisible
+    private void insertOpportunities(List<Opportunity> opportunities) {
+      throw new UnexpectedException('not implemented');
     }
 
-    processOpportunities(opportunitiesToProcess);
-  }
-
-  private void processOpportunities(List<Opportunity> opportunities) {
-    List<Id> accountIds = SObjectUtil.collectIds(
-      opportunities,
-      Opportunity.AccountId
-    );
-    List<Opportunity> existingNextOpportunities = opportunitySelector.getOpenOpportunitiesWithPremiumLineItems(
-      accountIds
-    );
-
-    Map<Id, Boolean> hasExistingNextOpportunityByAccountId = new Map<Id, Boolean>();
-    for (Opportunity opportunity : existingNextOpportunities) {
-      if (
-        opportunity.OpportunityLineItems != null &&
-        opportunity.OpportunityLineItems.size() > 0
-      ) {
-        hasExistingNextOpportunityByAccountId.put(opportunity.AccountId, true);
-      }
-    }
-
-    List<Opportunity> opportunitiesWithoutNextOpportunities = new List<Opportunity>();
-    for (Opportunity opportunity : opportunities) {
-      if (
-        !hasExistingNextOpportunityByAccountId.containsKey(
-          opportunity.AccountId
-        )
-      ) {
-        opportunitiesWithoutNextOpportunities.add(opportunity);
-      }
-    }
-
-    if (opportunitiesWithoutNextOpportunities.size() > 0) {
-      opportunityWriter.databaseInsert(
-        opportunityFactory.createPremiumOpportunities(
-          opportunitiesWithoutNextOpportunities
-        )
-      );
+    @TestVisible
+    private void insertOpportunityLineItems(
+      List<OpportunityLineItem> opportunityLineItems
+    ) {
+      throw new UnexpectedException('not implemented');
     }
   }
 }

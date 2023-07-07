@@ -3,11 +3,11 @@
  */
 public inherited sharing class OpportunityConstants {
   /**
-   * Names of all starter products.
+   * Names of all standard products.
    */
-  public static final Set<String> STARTER_PRODUCTS {
+  public static final Set<String> STANDARD_PRODUCTS {
     get {
-      return new Set<String>{ 'Free', 'Standard' };
+      return new Set<String>{ 'Free', 'Standard', 'Starter' };
     }
   }
 
@@ -16,7 +16,7 @@ public inherited sharing class OpportunityConstants {
    */
   public static final Set<String> PREMIUM_PRODUCTS {
     get {
-      return new Set<String>{ 'Unlimited' };
+      return new Set<String>{ 'Premium', 'Premium (legacy)', 'Unlimited' };
     }
   }
 }
