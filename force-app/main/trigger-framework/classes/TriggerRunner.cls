@@ -62,4 +62,95 @@ public inherited sharing class TriggerRunner {
 
     return null;
   }
+
+  @TestVisible
+  private abstract class TriggerTest {
+    @TestVisible
+    private void run() {
+      FakeTriggerHandler fakeTriggerHandler = new FakeTriggerHandler();
+      FakeTriggerHandlerProvider fakeTriggerHandlerProvider = new FakeTriggerHandlerProvider(
+        fakeTriggerHandler
+      );
+      TriggerRunner.triggerHandlerProvider = fakeTriggerHandlerProvider;
+
+      try {
+        insertSObject();
+      } catch (DmlException e) {
+        // empty catch block because we just want to cause the trigger to run
+      }
+
+      Assert.areEqual(1, fakeTriggerHandler.beforeInsertCallTimes);
+    }
+
+    @TestVisible
+    private abstract void insertSObject();
+  }
+
+  @TestVisible
+  private class FakeTriggerHandlerProvider extends TriggerHandlerProvider {
+    private final TriggerHandler triggerHandler;
+
+    @TestVisible
+    private FakeTriggerHandlerProvider(TriggerHandler triggerHandler) {
+      super(null);
+
+      this.triggerHandler = triggerHandler;
+    }
+
+    public override TriggerHandler get(SObjectType sobjectType) {
+      return triggerHandler;
+    }
+  }
+
+  @TestVisible
+  private class FakeTriggerHandler implements TriggerHandler {
+    @TestVisible
+    private Integer beforeInsertCallTimes = 0;
+    @TestVisible
+    private Integer beforeUpdateCallTimes = 0;
+    @TestVisible
+    private Integer beforeDeleteCallTimes = 0;
+    @TestVisible
+    private Integer afterInsertCallTimes = 0;
+    @TestVisible
+    private Integer afterUpdateCallTimes = 0;
+    @TestVisible
+    private Integer afterDeleteCallTimes = 0;
+    @TestVisible
+    private Integer afterUndeleteCallTimes = 0;
+
+    public void onBeforeInsert(List<SObject> sobjects) {
+      beforeInsertCallTimes++;
+    }
+
+    public void onBeforeUpdate(
+      List<SObject> sobjects,
+      Map<Id, SObject> oldSObjectsByIds
+    ) {
+      beforeUpdateCallTimes++;
+    }
+
+    public void onBeforeDelete(List<SObject> sobjects) {
+      beforeDeleteCallTimes++;
+    }
+
+    public void onAfterInsert(List<SObject> sobjects) {
+      afterInsertCallTimes++;
+    }
+
+    public void onAfterUpdate(
+      List<SObject> sobjects,
+      Map<Id, SObject> oldSObjectsByIds
+    ) {
+      afterUpdateCallTimes++;
+    }
+
+    public void onAfterDelete(List<SObject> oldSObjects) {
+      afterDeleteCallTimes++;
+    }
+
+    public void onAfterUndelete(List<SObject> sobjects) {
+      afterUndeleteCallTimes++;
+    }
+  }
 }

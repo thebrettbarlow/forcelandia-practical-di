@@ -9,8 +9,8 @@ private class TriggerRunnerTest {
       new Lead(Id = SObjectUtil.generateFakeId(Lead.SObjectType))
     };
     Map<Id, Lead> oldLeadsByIds = new Map<Id, Lead>(leads);
-    FakeTriggerHandler fakeTriggerHandler = new FakeTriggerHandler();
-    FakeTriggerHandlerProvider fakeTriggerHandlerProvider = new FakeTriggerHandlerProvider(
+    TriggerRunner.FakeTriggerHandler fakeTriggerHandler = new TriggerRunner.FakeTriggerHandler();
+    TriggerRunner.FakeTriggerHandlerProvider fakeTriggerHandlerProvider = new TriggerRunner.FakeTriggerHandlerProvider(
       fakeTriggerHandler
     );
     TriggerRunner.triggerHandlerProvider = fakeTriggerHandlerProvider;
@@ -36,8 +36,8 @@ private class TriggerRunnerTest {
   private static void run_emptyTriggerOldMap_doesNotThrow() {
     List<Lead> leads = new List<Lead>{ new Lead() };
     Map<Id, Lead> oldLeadsByIds = new Map<Id, Lead>();
-    FakeTriggerHandler fakeTriggerHandler = new FakeTriggerHandler();
-    FakeTriggerHandlerProvider fakeTriggerHandlerProvider = new FakeTriggerHandlerProvider(
+    TriggerRunner.FakeTriggerHandler fakeTriggerHandler = new TriggerRunner.FakeTriggerHandler();
+    TriggerRunner.FakeTriggerHandlerProvider fakeTriggerHandlerProvider = new TriggerRunner.FakeTriggerHandlerProvider(
       fakeTriggerHandler
     );
     TriggerRunner.triggerHandlerProvider = fakeTriggerHandlerProvider;
@@ -57,8 +57,8 @@ private class TriggerRunnerTest {
     List<Lead> leads = new List<Lead>();
     Lead lead = new Lead(Id = SObjectUtil.generateFakeId(Lead.SObjectType));
     Map<Id, Lead> oldLeadsByIds = new Map<Id, Lead>{ lead.Id => lead };
-    FakeTriggerHandler fakeTriggerHandler = new FakeTriggerHandler();
-    FakeTriggerHandlerProvider fakeTriggerHandlerProvider = new FakeTriggerHandlerProvider(
+    TriggerRunner.FakeTriggerHandler fakeTriggerHandler = new TriggerRunner.FakeTriggerHandler();
+    TriggerRunner.FakeTriggerHandlerProvider fakeTriggerHandlerProvider = new TriggerRunner.FakeTriggerHandlerProvider(
       fakeTriggerHandler
     );
     TriggerRunner.triggerHandlerProvider = fakeTriggerHandlerProvider;
@@ -77,8 +77,8 @@ private class TriggerRunnerTest {
   private static void run_emptyTriggerNewAndTriggerOldMap_throws() {
     List<Lead> leads = new List<Lead>();
     Map<Id, Lead> oldLeadsByIds = new Map<Id, Lead>();
-    FakeTriggerHandler fakeTriggerHandler = new FakeTriggerHandler();
-    FakeTriggerHandlerProvider fakeTriggerHandlerProvider = new FakeTriggerHandlerProvider(
+    TriggerRunner.FakeTriggerHandler fakeTriggerHandler = new TriggerRunner.FakeTriggerHandler();
+    TriggerRunner.FakeTriggerHandlerProvider fakeTriggerHandlerProvider = new TriggerRunner.FakeTriggerHandlerProvider(
       fakeTriggerHandler
     );
     TriggerRunner.triggerHandlerProvider = fakeTriggerHandlerProvider;
@@ -95,63 +95,5 @@ private class TriggerRunnerTest {
     }
 
     throwing.assertHasThrown();
-  }
-
-  private class FakeTriggerHandlerProvider extends TriggerHandlerProvider {
-    private final TriggerHandler triggerHandler;
-
-    private FakeTriggerHandlerProvider(TriggerHandler triggerHandler) {
-      super(null);
-
-      this.triggerHandler = triggerHandler;
-    }
-
-    public override TriggerHandler get(SObjectType sobjectType) {
-      return triggerHandler;
-    }
-  }
-
-  private class FakeTriggerHandler implements TriggerHandler {
-    private Integer beforeInsertCallTimes = 0;
-    private Integer beforeUpdateCallTimes = 0;
-    private Integer beforeDeleteCallTimes = 0;
-    private Integer afterInsertCallTimes = 0;
-    private Integer afterUpdateCallTimes = 0;
-    private Integer afterDeleteCallTimes = 0;
-    private Integer afterUndeleteCallTimes = 0;
-
-    public void onBeforeInsert(List<SObject> sobjects) {
-      beforeInsertCallTimes++;
-    }
-
-    public void onBeforeUpdate(
-      List<SObject> sobjects,
-      Map<Id, SObject> oldSObjectsByIds
-    ) {
-      beforeUpdateCallTimes++;
-    }
-
-    public void onBeforeDelete(List<SObject> sobjects) {
-      beforeDeleteCallTimes++;
-    }
-
-    public void onAfterInsert(List<SObject> sobjects) {
-      afterInsertCallTimes++;
-    }
-
-    public void onAfterUpdate(
-      List<SObject> sobjects,
-      Map<Id, SObject> oldSObjectsByIds
-    ) {
-      afterUpdateCallTimes++;
-    }
-
-    public void onAfterDelete(List<SObject> oldSObjects) {
-      afterDeleteCallTimes++;
-    }
-
-    public void onAfterUndelete(List<SObject> sobjects) {
-      afterUndeleteCallTimes++;
-    }
   }
 }
