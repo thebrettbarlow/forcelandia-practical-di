@@ -14,12 +14,17 @@ private class PremiumOpportunityFactoryTest {
     };
     FakeSelector fakeSelector = new FakeSelector(pricebookEntries);
     PremiumOpportunityFactory.selector = fakeSelector;
+    Pricebook2 standardPricebook = new Pricebook2(
+      Id = SObjectUtil.generateFakeId(Pricebook2.SObjectType)
+    );
+    FakePricebookSelector fakePricebookSelector = new FakePricebookSelector(
+      standardPricebook
+    );
     String stageName = 'stage-name';
-    Id pricebookId = SObjectUtil.generateFakeId(Pricebook2.SObjectType);
     Date today = Date.newInstance(2023, 7, 12);
     PremiumOpportunityFactory premiumOpportunityFactory = new PremiumOpportunityFactory(
+      fakePricebookSelector,
       stageName,
-      pricebookId,
       today
     );
 
@@ -43,12 +48,12 @@ private class PremiumOpportunityFactoryTest {
 
   @IsTest
   private static void createFor_stageNameIsNull_throws() {
+    PricebookSelector pricebookSelector;
     String stageName;
-    Id pricebookId;
     Date today;
     PremiumOpportunityFactory premiumOpportunityFactory = new PremiumOpportunityFactory(
+      pricebookSelector,
       stageName,
-      pricebookId,
       today
     );
     AssertThrows.Throwing throwing = AssertThrows.with(
@@ -67,68 +72,46 @@ private class PremiumOpportunityFactoryTest {
   }
 
   @IsTest
-  private static void createFor_pricebookIdIsNull_throws() {
-    String stageName = 'stage-name';
-    Id pricebookId;
-    Date today;
-    PremiumOpportunityFactory premiumOpportunityFactory = new PremiumOpportunityFactory(
-      stageName,
-      pricebookId,
-      today
-    );
-    AssertThrows.Throwing throwing = AssertThrows.with(
-      IllegalArgumentException.class,
-      'Expected a Pricebook Id to use when querying PricebookEntry records. Found null'
-    );
-
-    try {
-      premiumOpportunityFactory.createFor(null);
-      throwing.shouldHaveThrown();
-    } catch (Exception e) {
-      throwing.threw(e);
-    }
-
-    throwing.assertHasThrown();
-  }
-
-  @IsTest
-  private static void createFor_pricebookIdIncorrectSObjectType_throws() {
-    String stageName = 'stage-name';
-    Id pricebookId = SObjectUtil.generateFakeId(Lead.SObjectType);
-    Date today;
-    PremiumOpportunityFactory premiumOpportunityFactory = new PremiumOpportunityFactory(
-      stageName,
-      pricebookId,
-      today
-    );
-    AssertThrows.Throwing throwing = AssertThrows.with(
-      IllegalArgumentException.class,
-      'Expected the Pricebook Id to have SObjectType Pricebook2. Found SObjectType Lead'
-    );
-
-    try {
-      premiumOpportunityFactory.createFor(null);
-      throwing.shouldHaveThrown();
-    } catch (Exception e) {
-      throwing.threw(e);
-    }
-
-    throwing.assertHasThrown();
-  }
-
-  @IsTest
   private static void createFor_todayIsNull_throws() {
+    PricebookSelector pricebookSelector;
     String stageName = 'stage-name';
-    Id pricebookId = SObjectUtil.generateFakeId(Pricebook2.SObjectType);
     Date today;
     PremiumOpportunityFactory premiumOpportunityFactory = new PremiumOpportunityFactory(
+      pricebookSelector,
       stageName,
-      pricebookId,
       today
     );
     AssertThrows.Throwing throwing = AssertThrows.with(
       IllegalArgumentException.class,
       'Expected a Date representing today to allow for consistent Date operations. Found null'
+    );
+
+    try {
+      premiumOpportunityFactory.createFor(null);
+      throwing.shouldHaveThrown();
+    } catch (Exception e) {
+      throwing.threw(e);
+    }
+
+    throwing.assertHasThrown();
+  }
+
+  @IsTest
+  private static void createFor_pricebookIdIsNull_throws() {
+    Pricebook2 standardPricebook = null;
+    FakePricebookSelector fakePricebookSelector = new FakePricebookSelector(
+      standardPricebook
+    );
+    String stageName = 'stage-name';
+    Date today = Date.today();
+    PremiumOpportunityFactory premiumOpportunityFactory = new PremiumOpportunityFactory(
+      fakePricebookSelector,
+      stageName,
+      today
+    );
+    AssertThrows.Throwing throwing = AssertThrows.with(
+      IllegalArgumentException.class,
+      'Expected a Pricebook Id to use when querying PricebookEntry records. Found null'
     );
 
     try {
@@ -162,6 +145,18 @@ private class PremiumOpportunityFactoryTest {
 
     private override List<PricebookEntry> getPricebookEntries(Id pricebookId) {
       return pricebookEntries;
+    }
+  }
+
+  private class FakePricebookSelector extends PricebookSelector {
+    private final Pricebook2 standardPricebook;
+
+    private FakePricebookSelector(Pricebook2 standardPricebook) {
+      this.standardPricebook = standardPricebook;
+    }
+
+    public override Pricebook2 getStandardPricebook() {
+      return standardPricebook;
     }
   }
 }

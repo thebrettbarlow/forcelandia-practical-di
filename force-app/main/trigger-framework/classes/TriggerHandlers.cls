@@ -32,7 +32,11 @@ public inherited sharing class TriggerHandlers {
 
   private static final PremiumOpportunityFactory PREMIUM_OPPORTUNITY_FACTORY {
     get {
-      return new PremiumOpportunityFactory();
+      return new PremiumOpportunityFactory(
+        PRICEBOOK_SELECTOR,
+        DEFAULT_PREMIUM_OPPORTUNITY_STAGE_NAME,
+        TODAY
+      );
     }
   }
 
@@ -45,6 +49,24 @@ public inherited sharing class TriggerHandlers {
   private static final OpportunityChecker OPPORTUNITY_CHECKER {
     get {
       return new OpportunityChecker(OpportunityConstants.PREMIUM_PRODUCTS);
+    }
+  }
+
+  private static final PricebookSelector PRICEBOOK_SELECTOR {
+    get {
+      return new PricebookSelector();
+    }
+  }
+
+  private static final String DEFAULT_PREMIUM_OPPORTUNITY_STAGE_NAME {
+    get {
+      return 'Prospecting';
+    }
+  }
+
+  private static final Date TODAY {
+    get {
+      return Date.today();
     }
   }
 }

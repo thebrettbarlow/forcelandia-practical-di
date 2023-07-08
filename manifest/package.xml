@@ -33,6 +33,8 @@
         <members>PremiumOpportunityTest</members>
         <members>PremiumOpportunityServiceTest</members>
         <members>PremiumOpportunityFactoryTest</members>
+        <members>PricebookSelector</members>
+        <members>PricebookSelectorTest</members>
         <name>ApexClass</name>
     </types>
     <types>

@@ -5,8 +5,8 @@ public inherited sharing virtual class PremiumOpportunityFactory {
   @TestVisible
   private static Selector selector = new Selector();
 
+  private final PricebookSelector pricebookSelector;
   private final String stageName;
-  private final Id pricebookId;
   private final Date today;
 
   /**
@@ -17,12 +17,12 @@ public inherited sharing virtual class PremiumOpportunityFactory {
   private List<PricebookEntry> pricebookEntries;
 
   public PremiumOpportunityFactory(
+    PricebookSelector pricebookSelector,
     String stageName,
-    Id pricebookId,
     Date today
   ) {
+    this.pricebookSelector = pricebookSelector;
     this.stageName = stageName;
-    this.pricebookId = pricebookId;
     this.today = today;
   }
 
@@ -35,20 +35,6 @@ public inherited sharing virtual class PremiumOpportunityFactory {
       String.format(
         'Expected a default StageName. Found {0}',
         new List<Object>{ stageName }
-      )
-    );
-    Preconditions.checkArgument(
-      String.isNotBlank(pricebookId),
-      String.format(
-        'Expected a Pricebook Id to use when querying PricebookEntry records. Found {0}',
-        new List<Object>{ pricebookId }
-      )
-    );
-    Preconditions.checkArgument(
-      pricebookId.getSobjectType() == Pricebook2.SObjectType,
-      String.format(
-        'Expected the Pricebook Id to have SObjectType {0}. Found SObjectType {1}',
-        new List<Object>{ Pricebook2.SObjectType, pricebookId.getSobjectType() }
       )
     );
     Preconditions.checkArgument(
@@ -78,8 +64,17 @@ public inherited sharing virtual class PremiumOpportunityFactory {
       .setCloseDate(closeDate);
 
     if (pricebookEntries == null) {
-      pricebookEntries = selector.getPricebookEntries(pricebookId);
+      Pricebook2 pricebook = pricebookSelector.getStandardPricebook();
+      Preconditions.checkArgument(
+        String.isNotBlank(pricebook?.Id),
+        String.format(
+          'Expected a Pricebook Id to use when querying PricebookEntry records. Found {0}',
+          new List<Object>{ pricebook?.Id }
+        )
+      );
+      pricebookEntries = selector.getPricebookEntries(pricebook.Id);
     }
+
     for (PricebookEntry pricebookEntry : pricebookEntries) {
       premiumOpportunityBuilder.addUnitPricesByPricebookEntryIds(
         pricebookEntry.Id,

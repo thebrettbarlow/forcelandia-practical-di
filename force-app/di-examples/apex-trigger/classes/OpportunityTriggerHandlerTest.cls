@@ -257,6 +257,8 @@ private class OpportunityTriggerHandlerTest {
     private FakePremiumOpportunityFactory(
       PremiumOpportunity premiumOpportunity
     ) {
+      super(null, null, null);
+
       this.premiumOpportunity = premiumOpportunity;
     }
 
@@ -267,6 +269,10 @@ private class OpportunityTriggerHandlerTest {
 
   private class FakePremiumOpportunityService extends PremiumOpportunityService {
     private final List<PremiumOpportunity> processedPremiumOpportunities = new List<PremiumOpportunity>();
+
+    private FakePremiumOpportunityService() {
+      super(null);
+    }
 
     public override void createPremiumOpportunities(
       List<PremiumOpportunity> premiumOpportunities
