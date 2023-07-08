@@ -8,9 +8,15 @@ This project has been organized to showcase everyday uses of Dependency Injectio
 
 Check out the examples to learn more:
 
+- [Account Checker](force-app/main/account/classes/AccountChecker.cls)
+- [Opportunity Checker](force-app/main/opportunity/classes/OpportunityChecker.cls)
+- [Premium Opportunity Factory](force-app/premium-opportunity/service/classes/PremiumOpportunityFactory.cls)
+- [Premium Opportunity Service](force-app/premium-opportunity/service/classes/PremiumOpportunityService.cls)
 - [Apex Trigger](force-app/di-examples/apex-trigger)
-- [Integration with a REST API](force-app/di-examples/rest-integration)
-- [Lightning Component](force-app/di-examples/lightning-component)
+- [Trigger Framework](force-app/main/trigger-framework)
+
+A few static utilities are used throughout this project.
+Find them in the [force-app/main/default](force-app/main/default) folder.
 
 ## Development
 
