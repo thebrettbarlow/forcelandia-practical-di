@@ -63,8 +63,14 @@ public inherited sharing class TriggerRunner {
     return null;
   }
 
+  /**
+   * Base class that runs a trigger to meet code coverage requirements.
+   */
   @TestVisible
   private abstract class TriggerTest {
+    /**
+     * Runs the trigger and asserts that it was called the expected number of times.
+     */
     @TestVisible
     private void run() {
       FakeTriggerHandler fakeTriggerHandler = new FakeTriggerHandler();
@@ -82,6 +88,17 @@ public inherited sharing class TriggerRunner {
       Assert.areEqual(1, fakeTriggerHandler.beforeInsertCallTimes);
     }
 
+    /**
+     * Override this method to insert the {@link SObject} that is handled by the {@link Trigger} being tested.
+     *
+     * For example, the following can be used when testing an {@link Account} {@link Trigger}:
+     *
+     * <pre>
+     * private override void insertSObject() {
+     *   insert new Account();
+     * }
+     * </pre>
+     */
     @TestVisible
     private abstract void insertSObject();
   }
