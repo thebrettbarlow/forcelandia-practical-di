@@ -72,7 +72,7 @@ public inherited sharing class PremiumOpportunity {
     private Id accountId = null;
     private String stageName = '';
     private Date closeDate = DatetimeUtil.MAX.date();
-    private Map<Id, Decimal> unitPricesByPricebookEntryIds = new Map<Id, Decimal>();
+    private final Map<Id, Decimal> unitPricesByPricebookEntryIds = new Map<Id, Decimal>();
 
     /**
      * Sets the name of the Premium {@link Opportunity}, returning {@code this} for chaining.
