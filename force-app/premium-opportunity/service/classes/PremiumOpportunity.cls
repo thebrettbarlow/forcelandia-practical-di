@@ -130,6 +130,9 @@ public inherited sharing class PremiumOpportunity {
         unitPricesByPricebookEntryIds
       );
     }
+
+    private Builder() {
+    }
   }
 
   private PremiumOpportunity(
