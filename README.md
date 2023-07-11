@@ -1,6 +1,7 @@
 # Practical Uses of Dependency Injection
 
-Example project that was presented at [Forcelandia](https://forcelandia.com/) 2023.
+Example project that was presented at [Forcelandia](https://forcelandia.com/) 2023
+([slides](https://docs.google.com/presentation/d/1z9X-HAQVbAtuthoSS4uaYXLL4T-ZkbJx9OJ5g53basU/edit?usp=sharing)).
 
 ---
 
