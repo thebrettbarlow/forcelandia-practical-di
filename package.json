@@ -41,5 +41,7 @@
       "eslint"
     ]
   },
-  "sfDependencies": {}
+  "sfDependencies": {
+    "apex-assert-throws": "1.1.3"
+  }
 }

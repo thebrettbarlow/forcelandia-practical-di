@@ -3,12 +3,9 @@
     {
       "path": "force-app",
       "default": true
-    },
-    {
-      "path": "sf_modules"
     }
   ],
-  "name": "forcelandia-practical-di",
+  "name": "apex-assert-throws",
   "namespace": "",
   "sfdcLoginUrl": "https://login.salesforce.com",
   "sourceApiVersion": "57.0"
